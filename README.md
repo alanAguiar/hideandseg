@@ -6,8 +6,6 @@
 
 [[`Paper`](https://arxiv.org/abs/2511.04426)] [[`BibTeX`](#citing-hideandseg)]
 
-![HideAndSeg pipeline](assets/hideandseg_pipeline.png?raw=true)
-
 ---
 
 **HideAndSeg** is a minimally supervised framework for segmenting octopuses in underwater videos recorded in natural habitats. The method addresses the challenges posed by octopus camouflage, rapid appearance changes, non-rigid deformations, frequent occlusions, and adverse underwater imaging conditions, while operating in scenarios where large-scale annotated datasets are unavailable.
