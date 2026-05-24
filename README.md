@@ -1,66 +1,72 @@
 # HideAndSeg: Automated Octopus Segmentation in Natural Habitats
 
-**HideAndSeg: An AI-based tool with automated prompting for octopus segmentation in natural habitats**
 
 **Alan de Aguiar**, **Michaella Pereira Andrade**, **Charles Morphy D. Santos**, **João Paulo Gois**
 
-[[`Paper`](https://arxiv.org/abs/2511.04426)] [[`BibTeX`](#citing-hideandseg)]
+🐙[[`Paper`](https://arxiv.org/abs/2511.04426)] [[`BibTeX`](#citing-hideandseg)]
+
+
+![HideAndSeg Output](assets/full_output.png?raw=true)
 
 ---
 
 **HideAndSeg** is a minimally supervised framework for segmenting octopuses in underwater videos recorded in natural habitats. The method addresses the challenges posed by octopus camouflage, rapid appearance changes, non-rigid deformations, frequent occlusions, and adverse underwater imaging conditions, while operating in scenarios where large-scale annotated datasets are unavailable.
 
-HideAndSeg integrates **SAM 2** with a custom-trained **YOLOv11** object detector to progressively automate the segmentation process. Initial point-based prompts are used to generate segmentation masks, which serve as pseudo-labels to train the detector. Once trained, the detector provides bounding box prompts to SAM 2, enabling fully automated segmentation without further manual intervention.
-
+### How It Works
+The pipeline integrates **SAM 2 (Segment Anything Model 2)** with a custom-trained **YOLOv11** object detector to progressively automate the segmentation process:
+1. Initial point-based prompts generate segmentation masks.
+2. These masks are used to train the YOLOv11 detector.
+3. Once trained, the detector provides automated bounding box prompts back to SAM 2.
+4. The system produces fully automated segmentation without further manual intervention.
 ---
 
-## Method
+## Getting Started
 
-The HideAndSeg pipeline consists of three stages:
+### Prerequisites
+HideAndSeg requires:
+* **Python** $\ge$ 3.10
+* **PyTorch** $\ge$ 2.5.1
+* **TorchVision** $\ge$ 0.20.1
 
-1. **Prompted Initialization**  
-   Users provide point prompts on selected frames. SAM 2 generates initial segmentation masks from these inputs.
+*Note: Please follow the [official PyTorch instructions](https://pytorch.org/get-started/locally/) to install the correct versions for your hardware before proceeding.*
 
-2. **Detector Training**  
-   The generated masks are used as training data for a YOLOv11 object detector, which learns to localize the octopus across frames.
+### Installation
 
-3. **Automated Segmentation**  
-   The trained detector supplies bounding box prompts to SAM 2, enabling automatic and temporally consistent segmentation throughout the video.
+**1. Install SAM 2**
+HideAndSeg relies on SAM 2, which must be installed from its source repository:
+```bash
+git clone https://github.com/facebookresearch/sam2.git
+cd sam2
+pip install -e .
+cd ..
+```
 
-This design allows HideAndSeg to recover segmentation after complete occlusions, a scenario where manually prompted segmentation fails.
+**2. Install HideAndSeg**
+Clone this repository and install:
 
----
+```bash
+git clone https://github.com/alanAguiar/hideandseg.git
+cd hideandseg
+pip install -e .
+cd ..
+```
 
-## Evaluation Without Ground Truth
+### Usage
+The pipeline is designed to be used as a Python library:
 
-In the absence of annotated datasets, HideAndSeg introduces two unsupervised metrics to evaluate segmentation quality:
+```python
+from hideandseg import HideAndSeg
 
-- **Temporal Consistency** – measures stability of segmentation masks across consecutive frames.
-- **New Component Count** – quantifies the emergence of spurious connected components as an indicator of segmentation noise.
+# Initialize the pipeline
+hands = HideAndSeg(
+    sam2_model_size="large"
+)
 
-These metrics enable quantitative comparison between manually prompted and automated segmentation approaches.
+# Run segmentation
+hands.segment(video_path="video.mp4", output_path="output", n_annotated_frames=5)
+```
 
----
-
-## Results
-
-HideAndSeg achieves:
-
-- Reduced segmentation noise compared to manually prompted SAM 2
-- Improved temporal coherence in challenging underwater videos
-- Successful re-identification and segmentation after full occlusions
-- Robust performance in real-world natural environments
-
-The framework provides a practical tool for reducing manual effort in large-scale behavioral studies of wild cephalopods.
-
----
-
-## Applications
-
-- Octopus and cephalopod behavioral analysis  
-- Long-term monitoring in natural habitats  
-- Minimally supervised video segmentation  
-- Marine biology and ecological research  
+📚 For a complete walkthrough, check out our [example Jupyter Notebook](https://github.com/alanAguiar/hideandseg/tree/main/examples/video_segmentation.ipynb).
 
 ---
 
@@ -74,7 +80,8 @@ If you use HideAndSeg in your research, please cite:
       author={Alan de Aguiar and Michaella Pereira Andrade and Charles Morphy D. Santos and João Paulo Gois},
       year={2025},
       eprint={2511.04426},
-      archivhttps://arxiv.org/help/api/indexePrefix={arXiv},
+      archivePrefix={arXiv},
       primaryClass={cs.CV},
       url={https://arxiv.org/abs/2511.04426}, 
 }
+```

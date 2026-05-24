@@ -1,0 +1,6 @@
+examples/output/*
+hideandseg/models/sam2/checkpoints/*
+*/__pycache__/*
+*.ipynb_checkpoints
+*.egg-info
+build/*

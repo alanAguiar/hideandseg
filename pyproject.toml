@@ -1,0 +1,40 @@
+[build-system]
+requires = [
+    "setuptools>=61.0"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hideandseg"
+version = "0.1.0"
+authors = [
+  { name="Alan de Aguiar", email="alan.aguiar@ufabc.edu.br" },
+]
+description = "A minimally supervised framework for segmenting octopuses in underwater videos recorded in natural habitats"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+]
+dependencies = [
+    "ultralytics>=8.3.0",
+    "scikit-image>=0.24.0",
+    "opencv-python>=4.10.0"
+]
+
+[tool.setuptools]
+packages = ["hideandseg"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"hideandseg" = ["models/yolo/*.pt"]
+
+[project.urls]
+source = "https://github.com/alanAguiar/hideandseg"
+
